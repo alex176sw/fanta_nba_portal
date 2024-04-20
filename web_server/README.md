@@ -9,6 +9,13 @@ npm install express --save
 
 To build and run the Docker container:
 ```
-docker build -t node-web-server:v1 .
-docker container run -p 5000:5000 node-web-server:v1 5000
+docker build -t alex176/azure-scalable-app-prototype-frontend:v1 .
+docker container run -p 3000:3000 alex176/azure-scalable-app-prototype-frontend:v1
 ```
+
+To push the image:
+```
+docker push alex176/azure-scalable-app-prototype-frontend:v1
+```
+
+

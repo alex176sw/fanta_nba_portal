@@ -1,8 +1,9 @@
 #!/bin/bash
 
+NODEP=$1
 if [[ -z "$1" ]]; then
-    echo "Must provide PORT in environment" 1>&2
-    exit 1
+    echo "Using standard port 3000" 1>&2
+    NODEP=3000
 fi
 
-PORT=$1 node app/index.js 
+PORT=$NODEP node app/index.js 
