@@ -1,0 +1,37 @@
+const DataPreprocessing = require('./data_preprocessing');
+const NbaMatch = require('../models/nba_match');
+const Utils = require('./utils');
+
+class MLDataController {
+
+    static async getTrainingData(req, res) {
+        try {
+            if (! Utils.isMongoConnectionEstrablished()) {
+                throw new Error('MongoDB connection not established');
+            }
+    
+            const matches = await NbaMatch.find();
+
+            const ml_training_data = DataPreprocessing.preprocessData(matches);
+
+            res.json(ml_training_data);
+
+        }
+        catch (error) {
+            console.error('Error fetching data:', error);
+            res.status(500).json({
+                "error": error.toString()
+            });
+        }
+    }
+    
+    static async getInferenceData(req, res) {
+        const ml_inference_data = {
+            "home_team": "Lakers",
+            "away_team": "Chigago Bulls"
+        }
+        res.json(ml_inference_data);
+    }
+}
+
+module.exports = MLDataController;
