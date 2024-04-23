@@ -1,11 +1,18 @@
 Node.js Docker Image: https://github.com/nodejs/docker-node/blob/main/README.md#how-to-use-this-image
 
-To initialize a Node.js project:
-``` 
-docker run -it --rm --name my-node -v "$PWD":/usr/src/app -w /usr/src/app node:21 bash -l
+To develop a Node.js project:
+```
+docker run -it --rm --name node-app-dev -p 3000:3000 -v "$PWD":/usr/src/app -w /usr/src/app node:21 bash -l
+
+# Initialization
 npm init
 npm install express --save
+
+# Starting the app
+node app/index.js
 ```
+
+
 
 To build and run the Docker container:
 ```
