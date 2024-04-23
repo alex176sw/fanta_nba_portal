@@ -1,0 +1,10 @@
+{
+    "db": {
+        "host": "localhost",
+        "port": "27017",
+        "user": "",
+        "pass": "",
+        "collection": "fantanba",
+        "document": "nbamatches"
+    }
+}

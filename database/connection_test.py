@@ -4,7 +4,7 @@ from pymongo import MongoClient
 mongo_host = 'localhost'  # Docker host IP address
 mongo_port = 27017  # Default MongoDB port
 mongo_database = 'fantanba'  # Name of the MongoDB database
-mongo_collection = 'matches'  # Name of the MongoDB collection
+mongo_collection = 'nbamatches'  # Name of the MongoDB collection
 
 def connect_to_mongodb(host, port, database):
     try:

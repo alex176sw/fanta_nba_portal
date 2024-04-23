@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const MLDataRouter = require('./routes/ml_data.router');
+const Mongo = require('./controllers/mongo');
 
 var app = express();
 
@@ -21,10 +22,7 @@ app.use((req, res) => {
     res.status(404).json({ error: 'Endpoint not found' });
 });
 
-// Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/fantanba')
-    .then(() => console.log('Connected to MongoDB'))
-    .catch(err => console.error('Could not connect to MongoDB', err));
+Mongo.connect()
 
 // port is configurable
 const port = process.env.PORT | 3000;

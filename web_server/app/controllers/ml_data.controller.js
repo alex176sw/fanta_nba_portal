@@ -1,12 +1,12 @@
 const DataPreprocessing = require('./data_preprocessing');
 const NbaMatch = require('../models/nba_match');
-const Utils = require('./utils');
+const Mongo = require('./mongo');
 
 class MLDataController {
 
     static async getTrainingData(req, res) {
         try {
-            if (! Utils.isMongoConnectionEstrablished()) {
+            if (! Mongo.isMongoConnectionEstrablished()) {
                 throw new Error('MongoDB connection not established');
             }
     
