@@ -1,11 +1,21 @@
+https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-cli
+
+Create a Resource Group:
+```
+az group create --name aksClusterResourceGroup --location italynorth
+```
+
 Create a cluster:
 ```
-az aks create --resource-group aksResourceGroup --name askClusterDemo --enable-managed-identity --node-count 1 --generate-ssh-keys
+az aks create --resource-group aksClusterResourceGroup --name askClusterDemo --enable-managed-identity --node-count 1 --generate-ssh-keys
+```
+```
+az aks get-credentials --resource-group aksClusterResourceGroup --name askClusterDemo
 ```
 
 Deploy the application:
 ```
-kubectl apply -f aks-store-quickstart.yaml
+kubectl apply -f aks-deployment.yaml
 ```
 
 Check if pods are running:
@@ -25,5 +35,5 @@ kubectl delete deploy,pods,services --all
 
 
 ```
-az group delete --name aksResourceGroup --yes --no-wait
+az group delete --name aksClusterResourceGroup --yes --no-wait
 ```

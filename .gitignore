@@ -1,3 +1,4 @@
 web_server/node_modules
 data_gathering/data_gathering_env
 database/env
+data_gathering

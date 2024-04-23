@@ -1,0 +1,10 @@
+{
+    "db": {
+        "host": "mongodb",
+        "port": "27017",
+        "user": "",
+        "pass": "",
+        "collection": "fantanba",
+        "document": "nbamatches"
+    }
+}

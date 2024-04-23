@@ -7,7 +7,7 @@ class Mongo {
         const dbConfig = config.get('db');        
         mongoose.connect('mongodb://'+dbConfig.host+':'+dbConfig.port+'/'+dbConfig.collection)
             .then(() => console.log('Connected to MongoDB. Collection: '+dbConfig.collection))
-            .catch(err => console.error('Could not connect to MongoDB', err));
+            .catch(err => console.error('Could not connect to MongoDB with config: '+dbConfig, err));
     }
     static isMongoConnectionEstrablished() {
         return mongoose.connection.readyState == 1        
