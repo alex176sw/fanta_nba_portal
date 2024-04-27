@@ -7,7 +7,7 @@ class MLDataController {
     static async getTrainingData(req, res) {
         try {
             if (! Mongo.isMongoConnectionEstrablished()) {
-                throw new Error('MongoDB connection not established');
+                throw new Error('MongoDB connection not established. Connection parameters: '+Mongo.getMongoConnectionConfig());
             }
     
             const matches = await NbaMatch.find();
