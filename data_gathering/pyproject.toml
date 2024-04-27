@@ -1,0 +1,26 @@
+[project]
+name = "fanta_nba_data_gathering_service"
+description = ""
+version = "0.0.0"
+authors = [
+    { name = "Alessandro Albanesi", email = "alessandro.albanesi@studio.unibo.it" }
+]
+dependencies = [
+    "scikit-learn",
+    "nba_api",
+    "pandas",
+    "numpy",
+    "yaml",
+    "pymongo",
+    "schedule",
+    "icecream"
+]
+
+[project.optional-dependencies]
+dev = [
+    "jupyerlab"
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

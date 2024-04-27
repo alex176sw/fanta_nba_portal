@@ -1,0 +1,7 @@
+"host": "localhost"
+"port": 27017
+"database": "fantanba"
+"user": ""
+"pass": ""
+"collection": "fantanba"
+"document": "nbamatches"
