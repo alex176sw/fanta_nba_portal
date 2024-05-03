@@ -4,7 +4,8 @@
         "port": "27017",
         "user": "",
         "pass": "",
-        "collection": "fantanba",
-        "document": "nbamatches"
+        "database": "fantanba",
+        "collection": "games_stats",
+        "document": "game"
     }
 }

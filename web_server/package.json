@@ -1,7 +1,7 @@
 {
-  "name": "node-web-server-api",
+  "name": "web-server-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "Node.js Docker Image: https://github.com/nodejs/docker-node/blob/main/README.md#how-to-use-this-image",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
