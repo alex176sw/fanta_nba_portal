@@ -1,7 +1,7 @@
 [project]
 name = "fanta_nba_data_gathering_service"
 description = ""
-version = "0.0.0"
+version = "0.0.1"
 authors = [
     { name = "Alessandro Albanesi", email = "alessandro.albanesi@studio.unibo.it" }
 ]
@@ -10,10 +10,11 @@ dependencies = [
     "nba_api",
     "pandas",
     "numpy",
-    "yaml",
+    "pyaml",
     "pymongo",
     "schedule",
-    "icecream"
+    "icecream",
+    "python-dotenv"
 ]
 
 [project.optional-dependencies]
