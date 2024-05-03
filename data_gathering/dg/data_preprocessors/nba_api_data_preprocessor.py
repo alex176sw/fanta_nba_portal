@@ -3,82 +3,94 @@ import numpy as np
 import pandas as pd
 
 class NbaApiDataPreProcessor(DataPreProcessorBase):
-    
+
     def get_dataset(self, games_df: pd.DataFrame):
-        home_win_percentage_df = NbaApiDataPreProcessor.home_teams_win_percentage(games_df)
-        away_win_percentage_df = NbaApiDataPreProcessor.away_teams_win_percentage(games_df)
-        home_avg_points_df     = NbaApiDataPreProcessor.home_teams_average_points_scored(games_df)
-        away_avg_points_df     = NbaApiDataPreProcessor.away_teams_average_points_scored(games_df)
+
+        teams_ids = NbaApiDataPreProcessor.get_nba_team_ids(games_df)
+        teams_stats = NbaApiDataPreProcessor.get_teams_stats(teams_ids, games_df)
 
         dataset = []
-        columns = ["home_won", "minutes", "home_win_percentage", "home_avg_points", "away_win_percentage", "away_avg_points"]
+        
+        for i, game in games_df.iterrows():
 
-        for index, row in games_df.iterrows():
-
-            team_id = row["TEAM_ID"]
-            home_won = NbaApiDataPreProcessor.get_home_winner(row["WL"])
-            minutes = row["MIN"]
-
-            home_win_percentage = NbaApiDataPreProcessor.get_value_for_team(home_win_percentage_df, team_id, "home_team_win_percentage")
-            home_avg_points = NbaApiDataPreProcessor.get_value_for_team(home_avg_points_df, team_id, "home_team_average_points_scored")
+            # get home and away teams
+            home_team_id = game["TEAM_ID"]
+            game_ids = games_df[games_df["GAME_ID"] == game["GAME_ID"]]
+            away_team_id = game_ids[game_ids["TEAM_ID"] != home_team_id]["TEAM_ID"].values[0]
+        
+            # get home and away teams stats
+            home_team_stats = teams_stats[teams_stats["TEAM_ID"] == home_team_id].drop("TEAM_ID", axis=1).rename(columns = {
+                'win_percentage_away': 'home_team_win_percentage_away', 
+                'win_percentage_at_home': 'home_team_win_percentage_at_home',
+                'average_points_scored_away': 'home_team_average_points_scored_away',
+                'average_points_scored_at_home': 'home_team_average_points_scored_at_home'}).reset_index()
+        
+            away_team_stats = teams_stats[teams_stats["TEAM_ID"] == away_team_id].drop("TEAM_ID", axis=1).rename(columns = {
+                'win_percentage_away': 'away_team_win_percentage_away', 
+                'win_percentage_at_home': 'away_team_win_percentage_at_home',
+                'average_points_scored_away': 'away_team_average_points_scored_away',
+                'average_points_scored_at_home': 'away_team_average_points_scored_at_home'}).reset_index()
             
+            merged_stats = pd.concat([home_team_stats, away_team_stats], axis=1)
             
-            game_ids = games_df[games_df["GAME_ID"] == row["GAME_ID"]]
-            away_team_id = game_ids[game_ids["TEAM_ID"] != team_id]["TEAM_ID"].values[0]
-
-            away_win_percentage = NbaApiDataPreProcessor.get_value_for_team(away_win_percentage_df, away_team_id, "away_team_win_percentage")
-            away_avg_points = NbaApiDataPreProcessor.get_value_for_team(away_avg_points_df, away_team_id, "away_team_average_points_scored")
+            # add other fields
+            home_won = NbaApiDataPreProcessor.get_home_winner(game["WL"])
+            merged_stats.insert(0, "home_team_won", home_won, True)
 
             dataset.append(
-                (home_won, minutes, home_win_percentage, home_avg_points, away_win_percentage, away_avg_points)
+                merged_stats
             )
-
-        return pd.DataFrame(dataset, columns=columns)
-
-            
-
+        
+        dataset = pd.concat(dataset).reset_index().drop("index", axis=1).dropna()
+        print(dataset)
+        return dataset.to_dict(orient="records")
 
     @staticmethod
-    def home_teams_win_percentage(df):
-        home_games = df[df['MATCHUP'].str.contains('vs.')]
-
-        win_percentage = home_games.groupby('TEAM_ID')['WL'].apply(lambda x: (x == 'W').sum() / len(x)).reset_index()
-        win_percentage.rename(columns={'WL': 'home_team_win_percentage'}, inplace=True)
-
+    def get_win_percentage_for_team(games_df, team_id, home_game: bool):
+        loc = "vs." if home_game else "@"
+        col_name = "win_percentage_at_home" if home_game else "win_percentage_away"
+        games = games_df[(games_df['TEAM_ID'] == team_id) & games_df['MATCHUP'].str.contains(loc)  ]
+        win_percentage = games.groupby('TEAM_ID')['WL'].apply(lambda x: (x == 'W').sum() / len(x)).reset_index()
+        win_percentage.rename(columns={'WL': col_name}, inplace=True)
         return win_percentage
 
     @staticmethod
-    def away_teams_win_percentage(df):
-        away_games = df[df['MATCHUP'].str.contains('@')]
-
-        win_percentage = away_games.groupby('TEAM_ID')['WL'].apply(lambda x: (x == 'W').sum() / len(x)).reset_index()
-        win_percentage.rename(columns={'WL': 'away_team_win_percentage'}, inplace=True)
-
-        return win_percentage
-
-    @staticmethod
-    def home_teams_average_points_scored(df):
-        home_games = df[df['MATCHUP'].str.contains('vs.')]
-
-        avg_points_scored = home_games.groupby('TEAM_ID')['PTS'].mean().reset_index()
-        avg_points_scored.rename(columns={'PTS': 'home_team_average_points_scored'}, inplace=True)
-
+    def get_average_points_scored_for_team(games_df, team_id, home_game: bool):
+        loc = "vs." if home_game else "@"
+        col_name = 'average_points_scored_at_home' if home_game else "average_points_scored_away"
+        
+        games = games_df[(games_df['TEAM_ID'] == team_id) & games_df['MATCHUP'].str.contains(loc)  ]
+        avg_points_scored = games.groupby('TEAM_ID')['PTS'].mean().reset_index()
+        avg_points_scored.rename(columns={'PTS': col_name}, inplace=True)
         return avg_points_scored
 
     @staticmethod
-    def away_teams_average_points_scored(df):
-        away_games = df[df['MATCHUP'].str.contains('@')]
+    def get_stats_for_team(team_id: int, games_df):
+        df_wp_home = NbaApiDataPreProcessor.get_win_percentage_for_team(games_df, team_id, False)
+        df_wp_away = NbaApiDataPreProcessor.get_win_percentage_for_team(games_df, team_id, True)
+        merged_wp_df = pd.merge(df_wp_home, df_wp_away, on='TEAM_ID')
 
-        avg_points_scored = away_games.groupby('TEAM_ID')['PTS'].mean().reset_index()
-        avg_points_scored.rename(columns={'PTS': 'away_team_average_points_scored'}, inplace=True)
-
-        return avg_points_scored
+        df_ap_home = NbaApiDataPreProcessor.get_average_points_scored_for_team(games_df, team_id, False)
+        df_ap_away = NbaApiDataPreProcessor.get_average_points_scored_for_team(games_df, team_id, True)
+        merged_ap_df = pd.merge(df_ap_home, df_ap_away, on='TEAM_ID')
+        
+        merged_stats = pd.merge(merged_wp_df, merged_ap_df, on='TEAM_ID')
+        return merged_stats
 
     @staticmethod
-    def add_team_names(df, nba_teams):
-        team_id_to_name = {team['id']: team['full_name'] for team in nba_teams}
-        df['TEAM_NAME'] = df['TEAM_ID'].map(team_id_to_name)   
-        return df
+    def get_nba_team_ids(games_df):
+        teams_ids = set()
+        for i, game in games_df.iterrows():
+            teams_ids.add(game["TEAM_ID"])    
+        return teams_ids
+
+    @staticmethod
+    def get_teams_stats(teams_ids, games_df):
+        teams_stats = []
+        for team_id in teams_ids:
+            teams_stats.append(NbaApiDataPreProcessor.get_stats_for_team(team_id, games_df))
+        teams_stats = pd.concat(teams_stats).reset_index().drop("index", axis=1)
+        return teams_stats
 
     @staticmethod
     def get_home_winner(winner_str):
@@ -86,10 +98,3 @@ class NbaApiDataPreProcessor(DataPreProcessorBase):
             return 1
         return 0
     
-    @staticmethod
-    def get_value_for_team(df, team_id, column):
-        values = df[ df["TEAM_ID"] == team_id][column].values
-        if len(values) > 0:
-            return values[0]
-        else:
-            return np.nan

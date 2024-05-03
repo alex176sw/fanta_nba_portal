@@ -1,5 +1,7 @@
 import argparse
 
+from icecream import ic
+
 from dg.data_pipeline import DataPipeline
 from dg.data_preprocessors.nba_api_data_preprocessor import NbaApiDataPreProcessor
 from dg.mongo_db_connector import MongoDBConnector
@@ -15,6 +17,8 @@ def cli():
 
 def main(args):
 
+    ic("Application started!")
+
     dp = DataPipeline(
         MongoDBConnector(config_file=args.mongo_config_file),
         NbaDataService(NbaApiDataProviderImpl()),
@@ -23,7 +27,7 @@ def main(args):
 
     scheduler = TaskScheduler()
     scheduler.schedule_daily_job(
-        "21:38", dp.update_mongo_database_with_latest_data
+        "08:00", dp.update_mongo_database_with_latest_data
     )
     scheduler.run_scheduler()
     #scheduler.run_all()

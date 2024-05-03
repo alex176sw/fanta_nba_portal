@@ -9,14 +9,18 @@ class DataPipeline:
             
     def update_mongo_database_with_latest_data(self):
         
-        ic("Downloading data..")
-        games_df = self.nba_data_service.get_played_games_of_current_season()
-        ic("Preprocessing data..")
-        games_df = self.nba_data_preprocessor.get_dataset(games_df)
-        ic("Sending data to MongoDB..")
+        try:
+            ic("Downloading data..")
+            games_df = self.nba_data_service.get_played_games_of_current_season()
+            ic("Preprocessing data..")
+            games_dict = self.nba_data_preprocessor.get_dataset(games_df)
+            ic("Sending data to MongoDB..")
 
-        mongo_data = {
-            "ml_training_set" : games_df.to_dict(orient="records")
-        }
+            mongo_data = {
+                "ml_training_set" : games_dict
+            }
 
-        self.mongo_db_connector.insert_data(mongo_data)
+            self.mongo_db_connector.insert_data(mongo_data)
+        
+        except Exception as e:
+            ic("Exception!",e)
