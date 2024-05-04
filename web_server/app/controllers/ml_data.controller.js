@@ -9,7 +9,7 @@ class MLDataController {
                 throw new Error('MongoDB connection is not established. Connection parameters: '+Mongo.getMongoConnectionConfig());
             }
     
-            const ml_training_data = await NbaMatch.find();
+            const ml_training_data = await NbaMatch.findOne().sort({ _id: -1 });
 
             res.json(ml_training_data);
 
