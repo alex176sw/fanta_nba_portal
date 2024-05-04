@@ -1,4 +1,4 @@
-from data_gathering.dg.ml.data_preprocessor_base import DataPreprocessorBase
+from data_gathering.ml.data_preprocessor_base import DataPreprocessorBase
 
 import numpy as np
 import pandas as pd

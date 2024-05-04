@@ -14,6 +14,7 @@ class DataPipeline:
             games_df = self.nba_data_service.get_played_games_of_current_season()
             ic("Preprocessing data..")
             games_dict = self.nba_data_preprocessor.get_dataset(games_df)
+            ic(f"Columns: {games_df.columns}..")
             ic("Sending data to MongoDB..")
 
             mongo_data = {

@@ -1,4 +1,4 @@
-from dg.data_preprocessors.nba_api_data_preprocessor_base import DataPreProcessorBase
+from fanta_nba_data_gathering_service.data_preprocessors.nba_api_data_preprocessor_base import DataPreProcessorBase
 import numpy as np
 import pandas as pd
 
@@ -40,8 +40,9 @@ class NbaApiDataPreProcessor(DataPreProcessorBase):
             dataset.append(
                 merged_stats
             )
-        
-        dataset = pd.concat(dataset).reset_index().drop("index", axis=1).dropna()
+    
+        breakpoint()
+        dataset = pd.concat(dataset).drop("index", axis=1).dropna()
         print(dataset)
         return dataset.to_dict(orient="records")
 

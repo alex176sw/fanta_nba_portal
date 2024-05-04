@@ -1,4 +1,4 @@
-from dg.providers.nba_data_provider import NbaDataProviderBase
+from fanta_nba_data_gathering_service.providers.nba_data_provider import NbaDataProviderBase
 
 from nba_api.stats.endpoints import leaguegamefinder
 from nba_api.stats.static import teams

@@ -1,0 +1,21 @@
+[project]
+name = "fanta_nba_data_preprocessing_service"
+description = ""
+version = "0.0.1"
+authors = [
+    { name = "Alessandro Albanesi", email = "alessandro.albanesi@studio.unibo.it" }
+]
+dependencies = [
+    "scikit-learn",
+    "pandas",
+    "numpy",
+    "pyaml",
+    "pymongo",
+    "icecream",
+    "python-dotenv"
+]
+
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

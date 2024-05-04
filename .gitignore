@@ -1,5 +1,7 @@
 web_server/node_modules
-database/env
+**/*env
 */*.egg-info
 dg-env
 **/*.pyc
+**/*-checkpoint.ipynb
+**/.ipynb_checkpoints

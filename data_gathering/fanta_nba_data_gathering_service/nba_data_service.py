@@ -1,4 +1,4 @@
-from dg.providers.nba_api_impl import NbaApiDataProviderImpl
+from fanta_nba_data_gathering_service.providers.nba_api_impl import NbaApiDataProviderImpl
 
 class NbaDataService:
 
