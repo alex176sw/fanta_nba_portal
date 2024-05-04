@@ -1,4 +1,3 @@
-const DataPreprocessing = require('./data_preprocessing');
 const NbaMatch = require('../models/nba_match');
 const Mongo = require('./mongo');
 
@@ -10,9 +9,7 @@ class MLDataController {
                 throw new Error('MongoDB connection is not established. Connection parameters: '+Mongo.getMongoConnectionConfig());
             }
     
-            const matches = await NbaMatch.find();
-
-            const ml_training_data = DataPreprocessing.preprocessData(matches);
+            const ml_training_data = await NbaMatch.find();
 
             res.json(ml_training_data);
 
