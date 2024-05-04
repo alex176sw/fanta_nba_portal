@@ -40,10 +40,10 @@ class NbaApiDataPreProcessor(DataPreProcessorBase):
             dataset.append(
                 merged_stats
             )
-    
-        breakpoint()
         dataset = pd.concat(dataset).drop("index", axis=1).dropna()
         print(dataset)
+        print(dataset.columns)
+
         return dataset.to_dict(orient="records")
 
     @staticmethod
