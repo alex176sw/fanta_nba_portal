@@ -7,5 +7,11 @@
         "database": "fantanba",
         "collection": "games_stats",
         "document": "game"
+    },
+    "ml_data_service": {
+        "host": "localhost",
+        "port": "5000",
+        "get_training_data_end_point": "get_ml_data/train", 
+        "get_inference_data_end_point": "get_ml_data/inference"
     }
 }

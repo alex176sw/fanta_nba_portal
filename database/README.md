@@ -1,7 +1,7 @@
 Official Docker Image: https://hub.docker.com/_/mongo
 
 ```
-docker run --name mongodb -p 27017:27017 -d mongo:latest
+docker run --name mongodb -p 27017:27017 -d mongo:4
 ```
 By default Mongo's configuration requires no authentication for access, even for the administrative user.
 

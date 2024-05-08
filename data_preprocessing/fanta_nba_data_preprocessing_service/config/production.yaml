@@ -3,5 +3,5 @@
 "database": "fantanba"
 "user": ""
 "pass": ""
-"collection": "fantanba"
-"document": "nbamatches"
+"collection": "games_stats"
+"document": "game"

@@ -3,7 +3,7 @@ const router = express.Router();
 const MLDataController = require('../controllers/ml_data.controller');
 
 router.get('/train', MLDataController.getTrainingData);
-router.get('/inference', MLDataController.getInferenceData);
+router.post('/inference', MLDataController.getInferenceData);
 
 
 module.exports = router;
