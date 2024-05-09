@@ -3,7 +3,7 @@ const config = require('config');
 
 
 const nbaMatchSchema = new mongoose.Schema({
-    ml_training_set: []
+    games_stats: []
 });
 
 const NbaMatch = mongoose.model(config.db.collection, nbaMatchSchema);

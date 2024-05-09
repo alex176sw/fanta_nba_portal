@@ -28,14 +28,14 @@ def main():
         # Access a collection in the database
         collection = db[mongo_collection]
         
-        # Example: Inserting a document into the collection
-        document = {"home_team": "Lakers", "away_team": "Chicago Bulls"}
-        collection.insert_one(document)
-        print("Document inserted successfully!")
+        # Example: Inserting a docs into the collection
+        doc = {"home_team": "Lakers", "away_team": "Chicago Bulls"}
+        collection.insert_one(doc)
+        print("doc inserted successfully!")
         
-        # Example: Querying documents from the collection
-        documents = collection.find({})
-        for doc in documents:
+        # Example: Querying docs from the collection
+        docs = collection.find({})
+        for doc in docs:
             print(doc)
         
         # Close MongoDB connection

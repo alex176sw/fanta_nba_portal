@@ -20,11 +20,19 @@ class MongoDBConnector:
         result = collection.insert_one(data)
         print("Data inserted with ID:", result.inserted_id)
 
-    def get_games_stats(self, collection_name: str):
-        print(f"Fetching from collection {collection_name}")
+    def get_games_stats(self):
+        print(f"Fetching from collection {self.config['games_stats_collection_name']}")
+        return self.get_most_recent_doc(self.config['games_stats_collection_name'])
+
+    def get_teams_stats(self):
+        print(f"Fetching from collection {self.config['teams_stats_collection_name']}")
+        return self.get_most_recent_doc(self.config['teams_stats_collection_name'])
+
+    def get_most_recent_doc(self, collection_name):
         client = self._connect_to_db()
         collection = client[collection_name]
         most_recent_doc = collection.find_one(sort=[("_id", pymongo.DESCENDING)])
-        most_recent_doc = most_recent_doc["ml_training_set"]
         print(f"Found {len(most_recent_doc)} records")
-        return most_recent_doc
+        most_recent_doc.pop("_id")
+        key = list(most_recent_doc.keys())[0]
+        return most_recent_doc[key]    

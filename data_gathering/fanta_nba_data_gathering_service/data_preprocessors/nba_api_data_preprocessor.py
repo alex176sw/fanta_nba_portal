@@ -31,6 +31,9 @@ class NbaApiDataPreProcessor:
                 'average_points_scored_away': 'away_team_average_points_scored_away',
                 'average_points_scored_at_home': 'away_team_average_points_scored_at_home'}).reset_index()
             
+            home_team_stats = home_team_stats.drop(["TEAM_NAME", "TEAM_ABBREVIATION"], axis=1)
+            away_team_stats = away_team_stats.drop(["TEAM_NAME", "TEAM_ABBREVIATION"], axis=1)
+
             merged_stats = pd.concat([home_team_stats, away_team_stats], axis=1)
             
             # add other fields
