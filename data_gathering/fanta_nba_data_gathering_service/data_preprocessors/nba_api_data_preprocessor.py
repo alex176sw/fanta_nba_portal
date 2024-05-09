@@ -1,13 +1,13 @@
-from fanta_nba_data_gathering_service.data_preprocessors.nba_api_data_preprocessor_base import DataPreProcessorBase
-import numpy as np
 import pandas as pd
+from icecream import ic
 
-class NbaApiDataPreProcessor(DataPreProcessorBase):
+class NbaApiDataPreProcessor:
 
-    def get_dataset(self, games_df: pd.DataFrame):
+    def get_statistics(self, games_df: pd.DataFrame):
 
         teams_ids = NbaApiDataPreProcessor.get_nba_team_ids(games_df)
         teams_stats = NbaApiDataPreProcessor.get_teams_stats(teams_ids, games_df)
+        teams_stats = NbaApiDataPreProcessor.add_teams_names(teams_stats, games_df)
 
         dataset = []
         
@@ -41,10 +41,21 @@ class NbaApiDataPreProcessor(DataPreProcessorBase):
                 merged_stats
             )
         dataset = pd.concat(dataset).drop("index", axis=1).dropna()
-        print(dataset)
-        print(dataset.columns)
+        ic(dataset)
+        ic(dataset.columns)
+        ic(teams_stats)
+        ic(teams_stats.columns)
 
-        return dataset.to_dict(orient="records")
+
+        return dataset.to_dict(orient="records"), teams_stats.to_dict(orient="records")
+
+    @staticmethod
+    def add_teams_names(teams_stats, games_df):
+        merged_df = pd.merge(games_df, teams_stats, on='TEAM_ID', how='inner')
+        merged_df = merged_df.drop_duplicates(subset=["TEAM_ID"])
+        teams_stats['TEAM_ABBREVIATION'] = merged_df['TEAM_ABBREVIATION']
+        teams_stats['TEAM_NAME'] = merged_df['TEAM_NAME']
+        return teams_stats
 
     @staticmethod
     def get_win_percentage_for_team(games_df, team_id, home_game: bool):
@@ -66,6 +77,14 @@ class NbaApiDataPreProcessor(DataPreProcessorBase):
         return avg_points_scored
 
     @staticmethod
+    def get_teams_stats(teams_ids, games_df):
+        teams_stats = []
+        for team_id in teams_ids:
+            teams_stats.append(NbaApiDataPreProcessor.get_stats_for_team(team_id, games_df))
+        teams_stats = pd.concat(teams_stats).reset_index().drop("index", axis=1)
+        return teams_stats
+    
+    @staticmethod
     def get_stats_for_team(team_id: int, games_df):
         df_wp_home = NbaApiDataPreProcessor.get_win_percentage_for_team(games_df, team_id, False)
         df_wp_away = NbaApiDataPreProcessor.get_win_percentage_for_team(games_df, team_id, True)
@@ -84,14 +103,6 @@ class NbaApiDataPreProcessor(DataPreProcessorBase):
         for i, game in games_df.iterrows():
             teams_ids.add(game["TEAM_ID"])    
         return teams_ids
-
-    @staticmethod
-    def get_teams_stats(teams_ids, games_df):
-        teams_stats = []
-        for team_id in teams_ids:
-            teams_stats.append(NbaApiDataPreProcessor.get_stats_for_team(team_id, games_df))
-        teams_stats = pd.concat(teams_stats).reset_index().drop("index", axis=1)
-        return teams_stats
 
     @staticmethod
     def get_home_winner(winner_str):

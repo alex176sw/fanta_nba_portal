@@ -13,10 +13,11 @@ class DataPipeline:
             ic("Downloading data..")
             games_df = self.nba_data_service.get_played_games_of_current_season()
             ic("Preprocessing data..")
-            games_dict = self.nba_data_preprocessor.get_dataset(games_df)
+            games_statistics_dict, teams_statistics_dict = self.nba_data_preprocessor.get_statistics(games_df)
             ic("Sending data to MongoDB..")
             mongo_data = {
-                "ml_training_set" : games_dict
+                "ml_training_set" : games_statistics_dict,
+                "teams_statistics": teams_statistics_dict
             }
 
             self.mongo_db_connector.insert_data(mongo_data)
