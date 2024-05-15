@@ -7,10 +7,10 @@ az group create --name aksClusterResourceGroup --location italynorth
 
 Create a cluster:
 ```
-az aks create --resource-group aksClusterResourceGroup --name askClusterDemo --enable-managed-identity --node-count 1 --generate-ssh-keys
+az aks create --resource-group aksClusterResourceGroup --name askClusterDemo1 --enable-managed-identity --node-count 1 --generate-ssh-keys
 ```
 ```
-az aks get-credentials --resource-group aksClusterResourceGroup --name askClusterDemo
+az aks get-credentials --resource-group aksClusterResourceGroup --name askClusterDemo1
 ```
 
 Deploy the application:

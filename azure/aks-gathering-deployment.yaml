@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-app-gathering
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-app-gathering
+  template: 
+    metadata:
+      labels:
+        app: python-app-gathering
+    spec:
+      containers:
+      - name: data-gathering-app
+        image: alex176/azure-data-gathering-service:v1
+        resources:
+          requests:
+            cpu: 250m
+            memory: 64Mi
+          limits:
+            cpu: 500m
+            memory: 256Mi
+
