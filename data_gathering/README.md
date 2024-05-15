@@ -9,11 +9,11 @@ python ./fanta_nba_data_gathering_service/main.py -c ./fanta_nba_data_gathering_
 
 Build the container:
 ```
-docker build -t alex176/azure-data-gathering-servivce:v1 .
+docker build -t alex176/azure-data-gathering-service:v1 .
 ```
 
 
 Execute the container:
 ```
-docker container run --name data-gathering-app -d --network host alex176/azure-data-gathering-servivce:v1
+docker container run --name data-gathering-app -d --network host alex176/azure-data-gathering-service:v1
 ```
