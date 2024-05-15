@@ -1,0 +1,24 @@
+services:
+
+  mongodb:
+    image: mongo:4
+    ports:
+      - "27017:27017"
+    container_name: mongodb
+
+  data-gathering-app:
+    image: alex176/azure-data-gathering-service:v1
+    container_name: data-gathering-app
+
+  data-preprocessing-app:
+    image: alex176/azure-data-preprocessing-service:v1
+    ports:
+      - "5000:5000"
+    container_name: data-preprocessing-app
+
+  front-end-app:
+    image: alex176/azure-scalable-app-prototype-frontend:v1
+    ports:
+      - "3000:3000"
+    container_name: front-end-app
+

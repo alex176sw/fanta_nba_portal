@@ -1,9 +1,9 @@
 var express = require('express');
-const mongoose = require('mongoose');
+//const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const MLDataRouter = require('./routes/ml_data.router');
-const Mongo = require('./controllers/mongo');
+//const Mongo = require('./controllers/mongo');
 
 var app = express();
 
@@ -20,8 +20,6 @@ app.use('/get_ml_data', MLDataRouter);
 app.use((req, res) => {
     res.status(404).json({ error: 'Endpoint not found' });
 });
-
-Mongo.connect()
 
 // port is configurable
 const port = process.env.PORT | 3000;

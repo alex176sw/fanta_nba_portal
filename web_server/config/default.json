@@ -1,15 +1,6 @@
 {
-    "db": {
-        "host": "localhost",
-        "port": "27017",
-        "user": "",
-        "pass": "",
-        "database": "fantanba",
-        "games_stats_collection_name": "games_stats",
-        "teams_stats_collection_name": "teams_stats"
-    },
     "ml_data_service": {
-        "host": "localhost",
+        "host": "data-preprocessing-app",
         "port": "5000",
         "get_training_data_end_point": "get_ml_data/train", 
         "get_inference_data_end_point": "get_ml_data/inference"

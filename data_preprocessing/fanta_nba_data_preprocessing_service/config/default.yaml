@@ -1,4 +1,4 @@
-"host": "localhost"
+"host": "mongodb"
 "port": 27017
 "database": "fantanba"
 "user": ""

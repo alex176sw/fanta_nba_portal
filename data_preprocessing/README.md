@@ -18,5 +18,5 @@ docker build -t alex176/azure-data-preprocessing-service:v1 .
 
 Execute the container:
 ```
-docker container run --name data-preprocessing-app -d -p 8000:8000 --network host alex176/azure-data-preprocessing-service:v1
+docker container run --name data-preprocessing-app -d -p 5000:5000 --network host alex176/azure-data-preprocessing-service:v1
 ```

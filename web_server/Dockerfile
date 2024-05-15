@@ -1,5 +1,7 @@
 FROM node:21 
 WORKDIR /app
+RUN apt-get update && apt-get install -y vim curl
+
 COPY . .
 COPY package*.json ./
 COPY ./entrypoint.sh /
