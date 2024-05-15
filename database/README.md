@@ -1,5 +1,6 @@
 Official Docker Image: https://hub.docker.com/_/mongo
 
+Execute the container:
 ```
 docker run --name mongodb -p 27017:27017 -d mongo:4
 ```

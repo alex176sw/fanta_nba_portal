@@ -6,6 +6,7 @@ authors = [
     { name = "Alessandro Albanesi", email = "alessandro.albanesi@studio.unibo.it" }
 ]
 dependencies = [
+    "flask",
     "scikit-learn",
     "pandas",
     "numpy",

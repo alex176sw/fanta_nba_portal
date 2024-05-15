@@ -1,7 +1,8 @@
 Execute outside the container:
 ```
-python3 -m venv env
-source env/bin/activate
+python3 -m venv dgenv
+source dgenv/bin/activate
+pip install -e .
 python ./fanta_nba_data_gathering_service/main.py -c ./fanta_nba_data_gathering_service/config/default.yaml
 ```
 
