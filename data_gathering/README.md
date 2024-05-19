@@ -17,3 +17,8 @@ Execute the container:
 ```
 docker container run --name data-gathering-app -d --network host alex176/azure-data-gathering-service:v1
 ```
+
+
+Issue on connecting to stats.nba.com from a cloud provider: https://github.com/swar/nba_api/issues/176
+
+ 

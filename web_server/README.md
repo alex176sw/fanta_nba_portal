@@ -17,7 +17,7 @@ node app/index.js
 To build and run the Docker container:
 ```
 docker build -t alex176/azure-scalable-app-prototype-frontend:v1 .
-docker container run --name front-end-app -d --network host -p 3000:3000 alex176/azure-scalable-app-prototype-frontend:v1
+docker container run --name nodejs-app-frontend -d --network host -p 3000:3000 alex176/azure-scalable-app-prototype-frontend:v1
 ```
 
 To push the image:

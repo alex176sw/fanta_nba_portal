@@ -13,13 +13,14 @@ spec:
         app: python-app-gathering
     spec:
       containers:
-      - name: data-gathering-app
+      - name: python-app-gathering
         image: alex176/azure-data-gathering-service:v1
         resources:
           requests:
-            cpu: 250m
+            cpu: 50m
             memory: 64Mi
           limits:
-            cpu: 500m
-            memory: 256Mi
+            cpu: 100m
+            memory: 128Mi
+
 

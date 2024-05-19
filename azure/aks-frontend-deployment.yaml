@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-frontend
+  name: nodejs-app-frontend
 spec:
   ports:
   - port: 80
@@ -25,7 +25,7 @@ spec:
         app: nodejs-app-frontend
     spec:
       containers:
-      - name: nodejs
+      - name: nodejs-app-frontend
         image: alex176/azure-scalable-app-prototype-frontend:v1
         ports:
         - containerPort: 3000
@@ -34,9 +34,10 @@ spec:
           value: "production"
         resources:
           requests:
-            cpu: 250m
+            cpu: 50m
             memory: 64Mi
           limits:
-            cpu: 500m
-            memory: 256Mi
+            cpu: 100m
+            memory: 128Mi
+
 

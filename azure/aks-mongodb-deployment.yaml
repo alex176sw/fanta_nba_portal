@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: mongodb
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - port: 27017
       targetPort: 27017
@@ -31,8 +31,9 @@ spec:
         - containerPort: 27017
         resources:
           requests:
-            cpu: 250m
+            cpu: 50m
             memory: 64Mi
           limits:
-            cpu: 500m
-            memory: 256Mi
+            cpu: 100m
+            memory: 128Mi
+
