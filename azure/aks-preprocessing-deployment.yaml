@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: flask-app-preprocessing
-        image: alex176/azure-data-preprocessing-service:v1.1
+        image: alex176/azure-data-preprocessing-service:v1.2
         ports:
         - containerPort: 5000
         resources:

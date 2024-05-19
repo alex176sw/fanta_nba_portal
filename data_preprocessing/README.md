@@ -11,12 +11,12 @@ python ./fanta_nba_data_preprocessing_service/main.py -c ./fanta_nba_data_prepro
 
 Build del container:
 ```
-docker build -t alex176/azure-data-preprocessing-service:v1 .
+docker build -t alex176/azure-data-preprocessing-service:v1.2 .
 ```
 
 
 
 Execute the container:
 ```
-docker container run --name flask-app-preprocessing -d -p 5000:5000 --network host alex176/azure-data-preprocessing-service:v1.1
+docker container run --name flask-app-preprocessing -d -p 5000:5000 --network host alex176/azure-data-preprocessing-service:v1.2
 ```
