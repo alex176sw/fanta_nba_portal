@@ -32,6 +32,9 @@ class MongoDBConnector:
         client = self._connect_to_db()
         collection = client[collection_name]
         most_recent_doc = collection.find_one(sort=[("_id", pymongo.DESCENDING)])
+        if not most_recent_doc:
+            print(f"No documents found!")
+            return None
         print(f"Found {len(most_recent_doc)} records")
         most_recent_doc.pop("_id")
         key = list(most_recent_doc.keys())[0]

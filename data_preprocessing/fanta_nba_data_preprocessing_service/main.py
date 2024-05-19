@@ -25,8 +25,13 @@ def get_ml_data_train():
     mongo_db = MongoDBConnector(config_file=args.mongo_config_file)
 
     records = mongo_db.get_games_stats()
-    print(records[0])
-    # do some processing with home_team and away_team
+
+    if not records:
+        return {
+            "columns": [],
+            "records": []
+        }
+    
     records, columns, scaler = standardize(records)
 
     SCALER = scaler
@@ -45,11 +50,17 @@ def get_ml_data_inference():
 
     teams_stats = mongo_db.get_teams_stats()
 
+    if not teams_stats:
+        return {
+            "columns": [],
+            "records": []
+        }
+
     home_team = request.args.get('homeTeam')
     away_team = request.args.get('awayTeam')
 
     home_team_stats, away_team_stats = get_teams_statistics(home_team, away_team, teams_stats)
-
+    
     if SCALER is None:
         print("TODO: error...")
 
