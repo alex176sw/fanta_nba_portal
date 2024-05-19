@@ -18,5 +18,5 @@ docker build -t alex176/azure-data-preprocessing-service:v1 .
 
 Execute the container:
 ```
-docker container run --name flask-app-preprocessing -d -p 5000:5000 --network host alex176/azure-data-preprocessing-service:v1
+docker container run --name flask-app-preprocessing -d -p 5000:5000 --network host alex176/azure-data-preprocessing-service:v1.1
 ```
