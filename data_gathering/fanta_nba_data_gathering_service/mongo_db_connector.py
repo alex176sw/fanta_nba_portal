@@ -1,5 +1,6 @@
 import yaml
 import pymongo
+from urllib.parse import quote_plus
 
 class MongoDBConnector:
     def __init__(self, config_file):
@@ -11,7 +12,9 @@ class MongoDBConnector:
         return config
 
     def _connect_to_db(self):
-        client = pymongo.MongoClient(self.config['host'], self.config['port'])
+        uri = f"mongodb://{quote_plus(self.config['user'])}:{quote_plus(self.config['password'])}@{self.config['host']}"
+        print("Connection uri: ", uri)
+        client = pymongo.MongoClient(uri, port=self.config['port'])
         return client[self.config['database']]
 
     def insert_data_into_teams_stats_collection(self, data: dict):

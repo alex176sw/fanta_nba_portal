@@ -70,3 +70,7 @@ Disk resource ID: /subscriptions/fc011c7b-8150-4065-af8b-1a8487bc3f73/resourceGr
 kubectl apply -f pv-azuredisk.yaml
 kubectl apply -f pvc-azuredisk.yaml
 kubectl get pvc
+
+## Secrets
+kubectl create secret generic db-pass --from-literal=db-password='m0ng0d8'
+kubectl create secret generic db-user --from-literal=db-username='mongodb-user'

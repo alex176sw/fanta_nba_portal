@@ -1,7 +1,7 @@
-"host": "mongodb"
+"host": "172.213.169.156"
 "port": 27017
 "database": "fantanba"
-"user": ""
-"pass": ""
+"user": "mongodb-user"
+"password": "m0ng0d8"
 "games_stats_collection_name": "games_stats"
 "teams_stats_collection_name": "teams_stats"

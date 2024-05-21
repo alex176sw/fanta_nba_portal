@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: python-app-gathering
-        image: alex176/azure-data-gathering-service:v1
+        image: alex176/azure-data-gathering-service:v1.1
         resources:
           requests:
             cpu: 50m
