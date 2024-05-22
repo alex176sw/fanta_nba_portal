@@ -1,18 +1,22 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
-def standardize(dataset, scaler=None):
+def standardize_train_data(dataset):
     dataset = pd.DataFrame(dataset)
     columns = list(dataset.columns)
-
-    if scaler is None:
-        scaler = StandardScaler()
-        dataset = scaler.fit_transform(dataset).tolist()
-    else:
-        dataset = scaler.transform(dataset).tolist()
-        
+    target_column = dataset.pop("home_team_won")
+    scaler = StandardScaler()
+    dataset = scaler.fit_transform(dataset).tolist()
+    # merge target column with dataset
+    dataset = [[target_column.iloc[i].item()] + list(row) for i, row in enumerate(dataset)]
     return dataset, columns, scaler
         
+def standardize_inference_data(dataset, scaler):
+    dataset = {key: [value] for key, value in dataset.items()}
+    dataset = pd.DataFrame.from_dict(dataset)
+    columns = list(dataset.columns)
+    dataset = scaler.transform(dataset).tolist()
+    return dataset, columns
 
 
 def get_teams_statistics(home_team, host_team, teams_stats):
