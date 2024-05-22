@@ -9,6 +9,15 @@ services:
       MONGO_INITDB_ROOT_USERNAME: mongodb-user
       MONGO_INITDB_ROOT_PASSWORD: m0ng0d8
 
+  mongodb-backup:
+    image: mongo:4
+    ports:
+      - "27018:27017"
+    container_name: mongodb-backup
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongodb-user
+      MONGO_INITDB_ROOT_PASSWORD: m0ng0d8
+
   data-gathering-app:
     image: alex176/azure-data-gathering-service:v1.1
     container_name: data-gathering-app
