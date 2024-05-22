@@ -11,8 +11,8 @@ python ./fanta_nba_data_preprocessing_service/main.py -c ./fanta_nba_data_prepro
 
 Build del container:
 ```
-docker build -t alex176/azure-data-preprocessing-service:v1.3 .
-docker push alex176/azure-data-preprocessing-service:v1.3
+docker build -t alex176/azure-data-preprocessing-service:v1.4 .
+docker push alex176/azure-data-preprocessing-service:v1.4
 ```
 
 

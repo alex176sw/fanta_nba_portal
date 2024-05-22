@@ -5,20 +5,33 @@ services:
     ports:
       - "27017:27017"
     container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongodb-user
+      MONGO_INITDB_ROOT_PASSWORD: m0ng0d8
 
   data-gathering-app:
-    image: alex176/azure-data-gathering-service:v1
+    image: alex176/azure-data-gathering-service:v1.1
     container_name: data-gathering-app
 
-  data-preprocessing-app:
-    image: alex176/azure-data-preprocessing-service:v1
+  flask-app-preprocessing:
+    image: alex176/azure-data-preprocessing-service:v1.4
     ports:
       - "5000:5000"
-    container_name: data-preprocessing-app
+    container_name: flask-app-preprocessing
 
   front-end-app:
-    image: alex176/azure-scalable-app-prototype-frontend:v1
+    image: alex176/azure-scalable-app-prototype-frontend:v1.1
     ports:
       - "3000:3000"
     container_name: front-end-app
 
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://mongodb-user:m0ng0d8@localhost:27017/
+      ME_CONFIG_BASICAUTH: false
