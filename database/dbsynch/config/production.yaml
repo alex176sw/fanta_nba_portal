@@ -1,0 +1,9 @@
+"host": "mongodb"
+"port": 27017
+"backup_host": "mongodb_backup"
+"backup_port": 27017
+"database": "fantanba"
+"user": "mongodb-user"
+"password": "m0ng0d8"
+"games_stats_collection_name": "games_stats"
+"teams_stats_collection_name": "teams_stats"

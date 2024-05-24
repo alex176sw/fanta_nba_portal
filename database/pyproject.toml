@@ -1,0 +1,23 @@
+[project]
+name = "dbsynch"
+description = ""
+version = "0.0.1"
+authors = [
+    { name = "Alessandro Albanesi", email = "alessandro.albanesi@studio.unibo.it" }
+]
+dependencies = [
+    "pyaml",
+    "pymongo",
+    "schedule",
+    "icecream",
+    "python-dotenv"
+]
+
+[project.optional-dependencies]
+dev = [
+    "jupyerlab"
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
