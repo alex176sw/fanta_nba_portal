@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dbsynch
+spec:
+  selector:
+    app: dbsynch
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dbsynch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dbsynch
+  template: 
+    metadata:
+      labels:
+        app: dbsynch
+    spec:
+      containers:
+      - name: dbsynch
+        image: alex176/azure-dbsynch-service:v1.0
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 100m
+            memory: 128Mi
