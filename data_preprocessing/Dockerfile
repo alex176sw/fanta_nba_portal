@@ -2,8 +2,6 @@ FROM python:3.9-slim
 
 WORKDIR /usr/src/app
 
-RUN apt-get update && apt-get install -y vim
-
 COPY pyproject.toml .
 COPY . .
 
