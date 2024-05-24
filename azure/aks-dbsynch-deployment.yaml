@@ -3,6 +3,9 @@ kind: Service
 metadata:
   name: dbsynch
 spec:
+  ports:
+  - port: 5001
+    targetPort: 5001
   selector:
     app: dbsynch
   type: ClusterIP
@@ -24,6 +27,8 @@ spec:
       containers:
       - name: dbsynch
         image: alex176/azure-dbsynch-service:v1.0
+        ports:
+        - containerPort: 5001
         resources:
           requests:
             cpu: 50m
