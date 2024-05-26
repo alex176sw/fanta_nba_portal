@@ -19,13 +19,13 @@ This micro-service synchronize the main database with the backup database.
 ## Instructions
 To build and push the Docker container:
 ```
-docker build -t alex176/azure-dbsynch-service:v1.0 .
-docker push alex176/azure-dbsynch-service:v1.0
+docker build -t alex176/azure-dbsynch-service:v1.2 .
+docker push alex176/azure-dbsynch-service:v1.2
 ```
 
 Execute the container:
 ```
-docker container run --name dbsynch -d --network host alex176/azure-dbsynch-service:v1.0
+docker container run --name dbsynch -d --network host alex176/azure-dbsynch-service:v1.2
 ```
 
 

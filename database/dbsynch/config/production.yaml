@@ -1,6 +1,6 @@
 "host": "mongodb"
 "port": 27017
-"backup_host": "mongodb_backup"
+"backup_host": "mongodb-backup"
 "backup_port": 27017
 "database": "fantanba"
 "user": "mongodb-user"

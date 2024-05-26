@@ -14,10 +14,7 @@ class Synchronized:
     def __init__(self, config_file):
         self.config = self._load_config(config_file)
         self._main_client = None
-        self._main_db = None
         self._backup_client = None
-        self._backup_db = None
-        self._connect_to_dbs()
 
     def _load_config(self, config_file):
         with open(config_file, 'r') as f:
@@ -26,47 +23,64 @@ class Synchronized:
 
     def _synchronize_collection(self, collection):
         # delete collection from backup database
-        self._backup_db[collection].drop()
-        documents = self._main_db[collection].find({})
+        backup_db = self._backup_client[self.config['database']]
+        main_db = self._main_client[self.config['database']]
+        backup_db[collection].drop()
+        documents = main_db[collection].find({})
         if documents:
-            self._backup_db[collection].insert_many(documents)
+            backup_db[collection].insert_many(documents)
 
     def synchronize_main_and_backup_databases(self):
-        print("Synchronizing databases...")
-        self._check_collections(self._main_db, "main")
-        self._check_collections(self._backup_db, "backup")
+        try:
+            self._connect_to_dbs()
 
-        collections = self._main_db.list_collection_names()
-        for collection in collections:
-            print(f"Synchronizing collection {collection}...")
-            self._synchronize_collection(collection)
+            backup_db = self._backup_client[self.config['database']]
+            main_db = self._main_client[self.config['database']]
 
-        self._check_collections(self._main_db, "main")
-        self._check_collections(self._backup_db, "backup")
-        print("Synchronization completed!")
+            print("Synchronizing databases...")
+            self._check_collections(main_db, "main")
+            self._check_collections(backup_db, "backup")
+
+            collections = main_db.list_collection_names()
+            for collection in collections:
+                print(f"Synchronizing collection {collection}...")
+                self._synchronize_collection(collection)
+
+            self._check_collections(main_db, "main")
+            self._check_collections(backup_db, "backup")
+            print("Synchronization completed!")
+
+        finally:
+            self._disconnect()
 
     def _connect_to_dbs(self):
-        main_db_uri = f"mongodb://{quote_plus(self.config['user'])}:{quote_plus(self.config['password'])}@{self.config['host']}"
+        main_db_uri = f"mongodb://{quote_plus(self.config['user'])}:{quote_plus(self.config['password'])}@{self.config['host']}:{self.config['port']}"
         print("Connection uri (main database): ", main_db_uri)
-        self._main_client = pymongo.MongoClient(main_db_uri, port=self.config['port'], serverSelectionTimeoutMS=10000)
-        self._main_db = self._main_client[self.config['database']]        
+        self._main_client = pymongo.MongoClient(main_db_uri, serverSelectionTimeoutMS=10000)
         if self._is_connected(self._main_client):
             print("Connected to MongoDB (main) successfully!")
         else:
-            print("Error connecting to MongoDB (main)")
-            raise Exception("Error connecting to MongoDB (main)")
+            print(f"Error connecting to MongoDB (main) with uri: {main_db_uri}")
+            raise Exception(f"Error connecting to MongoDB (main) with uri: {main_db_uri}")
         
-        backup_db_uri = f"mongodb://{quote_plus(self.config['user'])}:{quote_plus(self.config['password'])}@{self.config['backup_host']}"
+        backup_db_uri = f"mongodb://{quote_plus(self.config['user'])}:{quote_plus(self.config['password'])}@{self.config['backup_host']}:{self.config['port']}"
         print("Connection uri (backup database): ", backup_db_uri)
-        self._backup_client = pymongo.MongoClient(backup_db_uri, port=self.config['backup_port'], serverSelectionTimeoutMS=10000)
-        self._backup_db = self._backup_client[self.config['database']]
+        self._backup_client = pymongo.MongoClient(backup_db_uri, serverSelectionTimeoutMS=10000)
         if self._is_connected(self._backup_client):
             print("Connected to MongoDB (backup) successfully!")
         else:
-            print("Error connecting to MongoDB (backup)")
-            raise Exception("Error connecting to MongoDB (backup)")
+            print(f"Error connecting to MongoDB (backup) with uri: {backup_db_uri}")
+            raise Exception(f"Error connecting to MongoDB (backup) with uri: {backup_db_uri}")
 
-
+ 
+    def _disconnect(self):
+        if self._main_client:
+            self._main_client.close()
+            print("Disconnected from main MongoDB")
+        if self._backup_client:
+            self._backup_client.close()
+            print("Disconnected from backup MongoDB")
+        
     def _is_connected(self, client):
         try:
             connected = client is not None and client.admin.command('ping')['ok'] == 1
