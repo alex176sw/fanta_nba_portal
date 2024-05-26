@@ -42,9 +42,8 @@ spec:
               key: db-password
         resources:
           requests:
-            cpu: 100m
-            memory: 128Mi
+            memory: "256Mi"
+            cpu: "250m"
           limits:
-            cpu: 200m
-            memory: 256Mi
-
+            memory: "512Mi"
+            cpu: "500m"

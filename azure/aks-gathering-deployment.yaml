@@ -17,10 +17,10 @@ spec:
         image: alex176/azure-data-gathering-service:v1.2
         resources:
           requests:
-            cpu: 50m
+            cpu: 250m
             memory: 64Mi
           limits:
-            cpu: 100m
+            cpu: 500m
             memory: 128Mi
 
 
