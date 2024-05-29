@@ -23,3 +23,15 @@ resource "azurerm_kubernetes_cluster" "default" {
     environment = "Demo"
   }
 }
+
+resource "azurerm_managed_disk" "mongodb_disk" {
+  name                 = "mongodb-disk"
+  location             = azurerm_resource_group.default.location
+  resource_group_name  = azurerm_resource_group.default.name
+  storage_account_type = "Premium_LRS"
+  disk_size_gb         = 20
+
+  tags = {
+    environment = "Demo"
+  }
+}
