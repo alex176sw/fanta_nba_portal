@@ -1,52 +1,78 @@
-//const NbaMatch = require('../models/nba_match');
-//const Mongo = require('./mongo');
 const config = require('config');
+
 class MLDataController {
-
-    static async getTrainingData(req, res) {
+    static async getOverviewData(req, res) {
         const fetchModule = await import('node-fetch');
-        const fetch = fetchModule.default;
-        const mlConfig = config.get('ml_data_service');
-
-        const fetch_url = "http://" + mlConfig.host + ':' + mlConfig.port + '/' + mlConfig.get_training_data_end_point;
-        console.log("Fetching url: "+fetch_url)
+        const fetch = fetchModule.default;        
+        const mlManagerConfig = config.get('ml_manager_service');
+        const fetch_url = `http://${mlManagerConfig.host}:${mlManagerConfig.port}/overview`;
+        console.log("getOverviewData:",fetch_url)
 
         try {
             const response = await fetch(fetch_url);
-            const ml_inference_data = await response.json();
-            res.json(ml_inference_data);
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+            }
+
+            const overviewData = await response.json();
+            res.json(overviewData);
         } catch (error) {
-            console.log("error!", error);
-            res.status(500).json({"error": error.message});
+            console.error("Error fetching overview data:", error);
+            res.status(500).json({ "error": error.message });
         }
     }
-    
 
-    static async getInferenceData(req, res) {
+    static async trainModel(req, res) {
         const fetchModule = await import('node-fetch');
-        const fetch = fetchModule.default;
-        const mlConfig = config.get('ml_data_service');
+        const fetch = fetchModule.default;        
+        const mlManagerConfig = config.get('ml_manager_service');
+        const fetch_url = `http://${mlManagerConfig.host}:${mlManagerConfig.port}/train`;
+        console.log("trainModel:",fetch_url)
 
-
-        const { homeTeam, awayTeam } = req.body;
-        const fetch_url = "http://" + mlConfig.host + ':' + mlConfig.port + '/' + mlConfig.get_inference_data_end_point + '?homeTeam=' + encodeURIComponent(homeTeam) + '&awayTeam=' + encodeURIComponent(awayTeam);
-
-        console.log("Fetching url: "+fetch_url)
-        
         try {
-            const response = await fetch(fetch_url);
-            const ml_inference_data = await response.json();
-            console.log("ml_inference_data:",ml_inference_data)
-            res.json(ml_inference_data);
+            const response = await fetch(fetch_url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(req.body)
+            });
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+            }
+            const trainData = await response.json();
+            res.json(trainData);
         } catch (error) {
-            console.log("error!", error);
-            res.status(500).json({"error": error.message});
+            console.error("Error training model:", error);
+            res.status(500).json({ "error": error.message });
         }
     }
-    
-    
 
+    static async makeInference(req, res) {
+        const fetchModule = await import('node-fetch');
+        const fetch = fetchModule.default;        
+        const mlManagerConfig = config.get('ml_manager_service');
 
+        const { homeTeam, hostTeam, trainedModel } = req.body;
+        const fetch_url = `http://${mlManagerConfig.host}:${mlManagerConfig.port}/inference` + '?homeTeam=' + encodeURIComponent(homeTeam) + '&hostTeam=' + encodeURIComponent(hostTeam)+ '&trainedModel='+ encodeURIComponent(trainedModel);
+        console.log("makeInference:",fetch_url)
+        try {
+            const response = await fetch(fetch_url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(req.body)
+            });
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+            }
+            const inferenceData = await response.json();
+            res.json(inferenceData);
+        } catch (error) {
+            console.error("Error making inference:", error);
+            res.status(500).json({ "error": error.message });
+        }
+    }
 }
 
 module.exports = MLDataController;

@@ -1,0 +1,22 @@
+[project]
+name = "trainer"
+description = ""
+version = "0.0.1"
+authors = [
+    { name = "Alessandro Albanesi", email = "alessandro.albanesi@studio.unibo.it" }
+]
+dependencies = [
+    "pyaml",
+    "icecream",
+    "python-dotenv",
+    "requests",
+    "pymongo",
+    "scikit-learn",
+    "numpy",
+    "requests"
+]
+
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

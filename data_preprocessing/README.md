@@ -1,9 +1,7 @@
 # FantaNBA Data-Preprocessing service
-This is the middle-man between the front-end and the database. It transform the data read from the database to a suitable format for a machine learning algorithm based on neural networks.
-
+This is the middle-man between the MLManager service and the database. It transform the data read from the database to a suitable format for machine learning algorithms.
 
 ## Instructions
-
 To build and push the Docker container:
 ```
 docker build -t alex176/azure-data-preprocessing-service:v1.5 .

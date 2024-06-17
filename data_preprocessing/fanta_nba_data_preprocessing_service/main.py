@@ -26,7 +26,7 @@ CACHE = {}
 TIMEOUT_CACHE_IN_SECONDS = 43200 # 12 hours
 LAST_CACHE_UPDATE = None
 
-@app.route('/get_ml_data/train', methods=['GET'])
+@app.route('/train', methods=['GET'])
 def get_ml_data_train():
     global SCALER, CACHE, LAST_CACHE_UPDATE
     
@@ -66,7 +66,7 @@ def get_ml_data_train():
 
 
 
-@app.route('/get_ml_data/inference', methods=['GET'])
+@app.route('/inference', methods=['GET'])
 def get_ml_data_inference():
     mongo_db = MongoDBConnector(config_file=args.mongo_config_file)
 

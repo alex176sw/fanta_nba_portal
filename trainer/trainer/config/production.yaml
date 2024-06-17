@@ -1,0 +1,6 @@
+"host": "mldatabase-service"
+"port": 27017
+"database": "mldatabase"
+"user": "mongodb-user"
+"password": "m0ng0d8"
+"data_preprocessing_service_host": "flask-app-preprocessing"

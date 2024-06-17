@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="/script.js" defer></script>
     <title>Fanta NBA</title>
@@ -11,27 +10,82 @@
 <body>
     <div class="container">
         <h1>Welcome to the FANTA NBA SERVICE</h1>
-        
-        <div class="form-group">
-            <label for="homeTeam">Home Team:</label>
-            <input type="text" class="form-control" id="homeTeam" value="Indiana Pacers">
-        </div>
-        <div class="form-group">
-            <label for="awayTeam">Host Team:</label>
-            <input type="text" class="form-control" id="awayTeam" value="Oklahoma City Thunder">
-        </div>
-        <div class="row">
-            <div class="col">
-                <button class="btn btn-primary" onclick="getInferenceData()">Get Inference Data</button>
+
+        <div id="overview">
+            <h2>Overview</h2>
+            <div>
+                <h3>Trained Models</h3>
+                <ul id="trainedModelsList"></ul>
             </div>
-            <div class="col">
-                <button class="btn btn-success" onclick="getTrainingData()">Get Training Data</button>
+            <div>
+                <h3>Queue Length</h3>
+                <p id="queueLength"></p>
+            </div>
+            <div>
+                <h3>Training Results</h3>
+                <table id="trainingResultsTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Model type</th>
+                            <th>Message</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div>
+                <h3>Inference Results</h3>
+                <table id="inferenceResultsTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Home Team Winning Percentage</th>
+                            <th>Host Team Winning Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
             </div>
         </div>
-        <div id="output" class="mt-3"></div>
+
+        <div id="training">
+            <h2>Training</h2>
+            <div class="form-group">
+                <label for="modelType">Model Type:</label>
+                <select id="modelType" class="form-control">
+                    <option value="neural-network">Neural Network</option>
+                    <option value="logistic-regression">Logistic Regression</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" onclick="trainModel()">Train Model</button>
+            <div id="train-output" class="mt-3"></div>
+        </div>
+
+        <div id="inference">
+            <h2>Inference</h2>
+            <div class="form-group">
+                <input type="text" class="form-control" id="homeTeam" value="Indiana Pacers">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" id="hostTeam" value="Oklahoma City Thunder">
+            </div>
+            <div class="form-group">
+                <label for="trainedModel">Trained Model:</label>
+                <select id="trainedModel" class="form-control">
+                    <option value="logistic-regression" selected>Logistic Regression</option>
+                    <option value="neural-network">Neural Network</option>                    
+                </select>
+            </div>
+            <button class="btn btn-success" onclick="makeInference()">Make Inference</button>
+            <div id="inference" class="mt-3"></div>
+        </div>
+
+        <div id="error-container"></div>
+
     </div>
 
-    <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

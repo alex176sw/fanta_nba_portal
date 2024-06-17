@@ -14,7 +14,7 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/public/index.html');
 });
 
-app.use('/get_ml_data', MLDataRouter);
+app.use('/ml', MLDataRouter);
 
 // Handle other endpoints or invalid requests
 app.use((req, res) => {

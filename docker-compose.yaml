@@ -18,33 +18,83 @@ services:
       MONGO_INITDB_ROOT_USERNAME: mongodb-user
       MONGO_INITDB_ROOT_PASSWORD: m0ng0d8
 
+  dbsynch:
+    build:
+      context: database
+    image: alex176/dbsynch-service:v1.2
+    container_name: dbsynch
+
+  mldatabase-service:
+    image: mongo:4
+    ports:
+      - "27019:27017"
+    container_name: mldatabase-service
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongodb-user
+      MONGO_INITDB_ROOT_PASSWORD: m0ng0d8
+  
   data-gathering-app:
-    image: alex176/azure-data-gathering-service:v1.1
+    build:
+      context: data_gathering
+    image: alex176/azure-data-gathering-service:v1.2
     container_name: data-gathering-app
 
   flask-app-preprocessing:
-    image: alex176/azure-data-preprocessing-service:v1.4
+    build:
+      context: data_preprocessing  
+    image: alex176/azure-data-preprocessing-service:v1.5
     ports:
       - "5000:5000"
     container_name: flask-app-preprocessing
 
+  mlmanager-service:
+    build:
+      context: mlmanager  
+    image: alex176/mlmanager-service:v1.0
+    ports:
+      - "5001:5001"
+    container_name: mlmanager-service
+
+  trainer-service:
+    build:
+      context: trainer
+    image: alex176/trainer-service:v1.0
+    container_name: trainer-service
+
+  inference-service:
+    build:
+      context: inference
+    image: alex176/inference-service:v1.0
+    container_name: inference-service
+
   front-end-app:
-    image: alex176/azure-scalable-app-prototype-frontend:v1.1
+    build:
+      context: web_server
+    image: alex176/azure-scalable-app-prototype-frontend:v2.0
     ports:
       - "3000:3000"
     container_name: front-end-app
 
-  dbsynch:
-    image: alex176/dbsynch-service:v1.0
-    container_name: dbsynch
-
-  mongo-express:
+  mongo-express-mongodb:
     image: mongo-express
+    container_name: mongo-express-mongodb
     restart: always
     ports:
       - 8081:8081
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_MONGODB_URL: mongodb://mongodb-user:m0ng0d8@localhost:27017/
-      ME_CONFIG_BASICAUTH: false
+      ME_CONFIG_MONGODB_URL: mongodb://mongodb-user:m0ng0d8@mongodb:27017/
+      ME_CONFIG_BASICAUTH: "false"
+
+  mongo-express-mldatabase:
+    image: mongo-express
+    container_name: mongo-express-mldatabase
+    restart: always
+    ports:
+      - 8082:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://mongodb-user:m0ng0d8@mldatabase-service:27017/
+      ME_CONFIG_BASICAUTH: "false"

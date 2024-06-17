@@ -4,12 +4,12 @@ The front-end of the application. It's a web server that provides a REST API and
 ## Instructions
 To build and push the Docker container:
 ```
-docker build -t alex176/azure-scalable-app-prototype-frontend:v1.2 .
-docker push alex176/azure-scalable-app-prototype-frontend:v1.2
+docker build -t alex176/azure-scalable-app-prototype-frontend:v2.0 .
+docker push alex176/azure-scalable-app-prototype-frontend:v2.0
 ```
 To run the container:
 ```
-docker container run --name nodejs-app-frontend -d --network host -p 3000:3000 alex176/azure-scalable-app-prototype-frontend:v1.2
+docker container run --name nodejs-app-frontend -d --network host -p 3000:3000 alex176/azure-scalable-app-prototype-frontend:v2.0
 ```
 
 To develop use: https://github.com/nodejs/docker-node/blob/main/README.md#how-to-use-this-image
