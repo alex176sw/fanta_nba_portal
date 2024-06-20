@@ -55,8 +55,8 @@
             <div class="form-group">
                 <label for="modelType">Model Type:</label>
                 <select id="modelType" class="form-control">
-                    <option value="neural-network">Neural Network</option>
                     <option value="logistic-regression">Logistic Regression</option>
+                    <option value="neural-network">Neural Network</option>
                 </select>
             </div>
             <button class="btn btn-primary" onclick="trainModel()">Train Model</button>
@@ -73,9 +73,7 @@
             </div>
             <div class="form-group">
                 <label for="trainedModel">Trained Model:</label>
-                <select id="trainedModel" class="form-control">
-                    <option value="logistic-regression" selected>Logistic Regression</option>
-                    <option value="neural-network">Neural Network</option>                    
+                <select id="trainedModel" class="form-control">                 
                 </select>
             </div>
             <button class="btn btn-success" onclick="makeInference()">Make Inference</button>

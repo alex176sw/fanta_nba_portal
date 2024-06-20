@@ -39,6 +39,7 @@ function displayOverviewData(data) {
     // Display training results
     const tableBody = document.getElementById('trainingResultsTable').querySelector('tbody');
     tableBody.innerHTML = '';
+
     data.trainingResults.forEach(result => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -47,6 +48,13 @@ function displayOverviewData(data) {
             <td>${result.message}</td>
         `;
         tableBody.appendChild(row);
+
+        // add options to <select> tag with id="trainedModel"
+        const selectElement = document.getElementById('trainedModel');
+        const option = document.createElement('option');
+        option.value = result.timestamp;
+        option.text = result.model_type + " - " +result.timestamp;
+        selectElement.appendChild(option);
     });
 
 

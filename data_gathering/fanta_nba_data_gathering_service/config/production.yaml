@@ -1,4 +1,4 @@
-"host": "172.213.169.156"
+"host": "mongodb"
 "port": 27017
 "database": "fantanba"
 "user": "mongodb-user"

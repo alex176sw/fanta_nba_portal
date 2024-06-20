@@ -2,7 +2,10 @@ import time
 import requests
 import numpy as np
 from sklearn.linear_model import LogisticRegression
-from database import Database
+try:
+    from trainer.database import Database
+except Exception as e:
+    from database import Database
 
 class TrainerService:
     def __init__(self, args):
@@ -37,9 +40,9 @@ class TrainerService:
                     data = self.fetch_data()
                     if data:
                         print("Train the model")
-                        model_params = self.train_model(model_type, data)
+                        model = self.train_model(model_type, data)
                         print("Save the model to database")
-                        self.db.save_trained_model(model_type, model_params)
+                        self.db.save_trained_model(model_type, model.get_params())
                         print(f"Trained and saved model of type: {model_type}")
                         training_result["message"] = "Model trained successfully"
                 except Exception as e:
@@ -57,16 +60,20 @@ class TrainerService:
         """
         data = np.array(data["records"])
 
-        X = data[:, 0]
-        y = data[:, 1:]
+        if len(data) == 0:
+            raise Exception("No data to train the model")
+
+        X = data[:, 1:]
+        y = data[:, 0]
 
         if model_type == "logistic-regression":
 
             model = LogisticRegression()
             model.fit(X, y)
             print(f"Model trained with parameters: {model.get_params()}")
-            return model.get_params()
+            return model
         else:
             print(f"Model type {model_type} not supported")
+            raise ValueError(f"Model type {model_type} not supported")
         # Add other model types here as needed
         return None

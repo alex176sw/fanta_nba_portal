@@ -13,7 +13,8 @@ dependencies = [
     "pymongo",
     "scikit-learn",
     "numpy",
-    "requests"
+    "requests",
+    "pytest"
 ]
 
 
