@@ -14,11 +14,17 @@ class Database:
 
     def get_trained_models(self):
         models_collection = self.db['trained_models']
-        return list(models_collection.find({}, {'_id': 0}))
+        models = list(models_collection.find({}, {"pickled_model": 0}))
+        for model in models:
+            model['_id'] = str(model['_id'])
+        return models
 
     def get_training_results(self):
         results_collection = self.db['training_results']
-        return list(results_collection.find({}, {'_id': 0}))
+        results = list(results_collection.find({}))
+        for result in results:
+            result['_id'] = str(result["_id"])
+        return results
         
     def get_inference_results(self):
         results_collection = self.db['inference_results']
@@ -44,10 +50,10 @@ class Database:
         queue_collection = self.db['train_queue']
         queue_collection.insert_one({"model_type": model_type})
 
-    def add_to_inference_queue(self, home_team, away_team, trained_model):
+    def add_to_inference_queue(self, home_team, host_team, trained_model):
         queue_collection = self.db['inference_queue']
         queue_collection.insert_one({
             "home_team": home_team,
-            "away_team": away_team,
+            "host_team": host_team,
             "trained_model": trained_model
         })

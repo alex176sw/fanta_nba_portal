@@ -1,4 +1,5 @@
 import yaml
+import pickle
 import pymongo
 from urllib.parse import quote_plus
 
@@ -75,8 +76,24 @@ class MongoDBConnector:
         key = list(most_recent_doc.keys())[0]
         return most_recent_doc[key]
     
+    def save_scaler_params(self, scaler_params):
+        if not self._is_connected():
+            self._connect_to_db()
+        collection = self._db["scalers"]
+        result = collection.insert_one({"scaler": scaler_params})
+        print("Scaler saved with ID:", result.inserted_id)
 
-if __name__=='__main__':
-    m = MongoDBConnector("config/default.yaml")
-    m.get_games_stats()
-    m.get_teams_stats()
+    def load_scaler_params(self):
+        if not self._is_connected():
+            self._connect_to_db()
+
+        collection = self._db['scalers']
+        scaler_doc = collection.find_one(
+            sort=[
+                ("_id", pymongo.DESCENDING)
+            ], projection={"_id": 0}
+        )
+        if not scaler_doc:
+            print("No scaler found!")
+            return None
+        return scaler_doc

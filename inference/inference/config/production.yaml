@@ -3,3 +3,5 @@
 "database": "mldatabase"
 "user": "mongodb-user"
 "password": "m0ng0d8"
+"sleep_time": 10
+"preprocessing-service-url": "http://flask-app-preprocessing:5000"

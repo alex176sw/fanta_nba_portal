@@ -16,7 +16,7 @@ class NbaApiDataPreProcessor:
             # get home and away teams
             home_team_id = game["TEAM_ID"]
             game_ids = games_df[games_df["GAME_ID"] == game["GAME_ID"]]
-            away_team_id = game_ids[game_ids["TEAM_ID"] != home_team_id]["TEAM_ID"].values[0]
+            host_team_id = game_ids[game_ids["TEAM_ID"] != home_team_id]["TEAM_ID"].values[0]
         
             # get home and away teams stats
             home_team_stats = teams_stats[teams_stats["TEAM_ID"] == home_team_id].drop("TEAM_ID", axis=1).rename(columns = {
@@ -25,16 +25,16 @@ class NbaApiDataPreProcessor:
                 'average_points_scored_away': 'home_team_average_points_scored_away',
                 'average_points_scored_at_home': 'home_team_average_points_scored_at_home'}).reset_index()
         
-            away_team_stats = teams_stats[teams_stats["TEAM_ID"] == away_team_id].drop("TEAM_ID", axis=1).rename(columns = {
-                'win_percentage_away': 'away_team_win_percentage_away', 
-                'win_percentage_at_home': 'away_team_win_percentage_at_home',
-                'average_points_scored_away': 'away_team_average_points_scored_away',
-                'average_points_scored_at_home': 'away_team_average_points_scored_at_home'}).reset_index()
+            host_team_stats = teams_stats[teams_stats["TEAM_ID"] == host_team_id].drop("TEAM_ID", axis=1).rename(columns = {
+                'win_percentage_away': 'host_team_win_percentage_away', 
+                'win_percentage_at_home': 'host_team_win_percentage_at_home',
+                'average_points_scored_away': 'host_team_average_points_scored_away',
+                'average_points_scored_at_home': 'host_team_average_points_scored_at_home'}).reset_index()
             
             home_team_stats = home_team_stats.drop(["TEAM_NAME", "TEAM_ABBREVIATION"], axis=1)
-            away_team_stats = away_team_stats.drop(["TEAM_NAME", "TEAM_ABBREVIATION"], axis=1)
+            host_team_stats = host_team_stats.drop(["TEAM_NAME", "TEAM_ABBREVIATION"], axis=1)
 
-            merged_stats = pd.concat([home_team_stats, away_team_stats], axis=1)
+            merged_stats = pd.concat([home_team_stats, host_team_stats], axis=1)
             
             # add other fields
             home_won = NbaApiDataPreProcessor.get_home_winner(game["WL"])

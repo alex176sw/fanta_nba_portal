@@ -32,18 +32,23 @@ def overview():
 
 @app.route('/train', methods=['POST'])
 def train():
+    app.logger.info("Train request received")
     model_type = request.json.get('modelType')
     db.add_to_train_queue(model_type)
+    app.logger.info(f"Model training request added to queue: {model_type}")
     return jsonify({"message": "Model training request added to queue."})
 
 @app.route('/inference', methods=['POST'])
 def inference():
+    app.logger.info("Inference request received")
     home_team = request.json.get('homeTeam')
-    away_team = request.json.get('awayTeam')
+    host_team = request.json.get('hostTeam')
+    app.logger.info(f"Inference request for {home_team} vs {host_team}")
     trained_model = request.json.get('trainedModel')
-    db.add_to_inference_queue(home_team, away_team, trained_model)
+    db.add_to_inference_queue(home_team, host_team, trained_model)
+    app.logger.info("Inference request added to queue")
     return jsonify({"message": "Inference request added to queue."})
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001)
+    app.run(host='0.0.0.0', port=5001, debug=True)

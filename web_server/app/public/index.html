@@ -25,8 +25,9 @@
                 <h3>Training Results</h3>
                 <table id="trainingResultsTable" class="table table-striped">
                     <thead>
-                        <tr>
+                        <tr>                            
                             <th>Timestamp</th>
+                            <th>Id</th>
                             <th>Model type</th>
                             <th>Message</th>
                         </tr>
@@ -77,7 +78,7 @@
                 </select>
             </div>
             <button class="btn btn-success" onclick="makeInference()">Make Inference</button>
-            <div id="inference" class="mt-3"></div>
+            <div id="inference-output" class="mt-3"></div>
         </div>
 
         <div id="error-container"></div>

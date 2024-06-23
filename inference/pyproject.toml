@@ -7,12 +7,9 @@ authors = [
 ]
 dependencies = [
     "scikit-learn",
-    "pandas",
     "numpy",
     "pyaml",
     "pymongo",
-    "icecream",
-    "python-dotenv",
     "requests"
 ]
 
