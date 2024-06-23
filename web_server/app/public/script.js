@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function fetchOverviewData() {
+
     fetch('/ml/overview')
         .then(response => {
             if (!response.ok) {
@@ -78,6 +79,11 @@ function displayOverviewData(data) {
 
 function trainModel() {
     const modelType = document.getElementById('modelType').value;
+    
+    const output = document.getElementById('train-output');
+    output.innerHTML = `<strong>Sending the training request! </strong>`;
+    output.className = 'alert alert-warning'; 
+
     fetch('/ml/train', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -109,7 +115,11 @@ function makeInference() {
     const homeTeam = document.getElementById('homeTeam').value;
     const hostTeam = document.getElementById('hostTeam').value;
     const trainedModel = document.getElementById('trainedModel').value;
-    console.log("makeInference: ", trainedModel)
+
+    const output = document.getElementById('inference-output');
+    output.innerHTML = `<strong>Sending the inference request! </strong>`;
+    output.className = 'alert alert-warning'; 
+
     fetch('/ml/inference', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

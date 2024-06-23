@@ -13,6 +13,6 @@ spec:
   storageClassName: managed-csi
   csi:
     driver: disk.csi.azure.com
-    volumeHandle: /subscriptions/fc011c7b-8150-4065-af8b-1a8487bc3f73/resourceGroups/srs2024-stu-g9/providers/Microsoft.Compute/disks/myAKSDisk
+    volumeHandle: /subscriptions/fc011c7b-8150-4065-af8b-1a8487bc3f73/resourceGroups/srs2024-stu-g9/providers/Microsoft.Compute/disks/mongodbDisk
     volumeAttributes:
       fsType: ext4

@@ -70,7 +70,7 @@ services:
   front-end-app:
     build:
       context: web_server
-    image: alex176/azure-scalable-app-prototype-frontend:v2.1
+    image: alex176/azure-scalable-app-prototype-frontend:v2.2
     ports:
       - "3000:3000"
     container_name: front-end-app

@@ -29,8 +29,8 @@ spec:
         image: alex176/inference-service:v1.1
         resources:
           requests:
-            cpu: 1000m
-            memory: 512M
+            cpu: 100m
+            memory: 64M
           limits:
-            cpu: 2000m
-            memory: 1024M
+            cpu: 500m
+            memory: 128M

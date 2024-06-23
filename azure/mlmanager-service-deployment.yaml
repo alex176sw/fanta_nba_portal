@@ -4,8 +4,8 @@ metadata:
   name: mlmanager-service
 spec:
   ports:
-  - port: 5000
-    targetPort: 5000
+  - port: 5001
+    targetPort: 5001
   selector:
     app: mlmanager
   type: ClusterIP
@@ -31,8 +31,8 @@ spec:
         - containerPort: 5001
         resources:
           requests:
-            cpu: 1000m
-            memory: 512M
+            cpu: 100m
+            memory: 64M
           limits:
-            cpu: 2000m
-            memory: 1024M
+            cpu: 500m
+            memory: 128M

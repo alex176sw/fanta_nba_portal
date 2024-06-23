@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: dbsynch
-        image: alex176/azure-dbsynch-service:v1.3
+        image: alex176/dbsynch-service:v1.3
         ports:
         - containerPort: 5001
         resources:
