@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mldatabase-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 27019       # Exposing 27019
+      targetPort: 27017 # Targeting container port 27017
+  selector:
+    app: mldatabase
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mldatabase
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mldatabase
+  template: 
+    metadata:
+      labels:
+        app: mldatabase
+    spec:
+      containers:
+      - name: mldatabase
+        image: mongo:4
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: db-user
+              key: db-username
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-pass
+              key: db-password
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"

@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: trainer-service
+spec:
+  ports:
+  - port: 5000
+    targetPort: 5000
+  selector:
+    app: trainer
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trainer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trainer
+  template: 
+    metadata:
+      labels:
+        app: trainer
+    spec:
+      containers:
+      - name: trainer-service
+        image: alex176/trainer-service:v1.1
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 512M
+          limits:
+            cpu: 2000m
+            memory: 1024M

@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongoexpress-mldatabase-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8082       # Exposing 27019
+      targetPort: 8081 # Targeting container port 27017
+  selector:
+    app: mongoexpress-mldatabase
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongoexpress-mldatabase
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongoexpress-mldatabase
+  template: 
+    metadata:
+      labels:
+        app: mongoexpress-mldatabase
+    spec:
+      containers:
+      - name: mongoexpress-mldatabase
+        image: mongo-express
+        env:
+        - name: ME_CONFIG_MONGODB_ADMINUSERNAME
+          valueFrom:
+            secretKeyRef:
+              name: db-user
+              key: db-username
+        - name: ME_CONFIG_MONGODB_ADMINPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-pass
+              key: db-password
+        - name: ME_CONFIG_MONGODB_URL
+          value: mongodb://$(ME_CONFIG_MONGODB_ADMINUSERNAME):$(ME_CONFIG_MONGODB_ADMINPASSWORD)@mldatabase-service:27017
+        - name: ME_CONFIG_BASICAUTH
+          value: "false"
+
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+ 
