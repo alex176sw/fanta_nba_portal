@@ -21,7 +21,7 @@ services:
   dbsynch:
     build:
       context: database
-    image: alex176/dbsynch-service:v1.2
+    image: alex176/dbsynch-service:v1.3
     container_name: dbsynch
 
   mldatabase-service:
@@ -42,7 +42,7 @@ services:
   flask-app-preprocessing:
     build:
       context: data_preprocessing  
-    image: alex176/azure-data-preprocessing-service:v1.5
+    image: alex176/azure-data-preprocessing-service:v1.6
     ports:
       - "5000:5000"
     container_name: flask-app-preprocessing
@@ -50,7 +50,7 @@ services:
   mlmanager-service:
     build:
       context: mlmanager  
-    image: alex176/mlmanager-service:v1.0
+    image: alex176/mlmanager-service:v1.1
     ports:
       - "5001:5001"
     container_name: mlmanager-service
@@ -58,19 +58,19 @@ services:
   trainer-service:
     build:
       context: trainer
-    image: alex176/trainer-service:v1.0
+    image: alex176/trainer-service:v1.1
     container_name: trainer-service
 
   inference-service:
     build:
       context: inference
-    image: alex176/inference-service:v1.0
+    image: alex176/inference-service:v1.1
     container_name: inference-service
 
   front-end-app:
     build:
       context: web_server
-    image: alex176/azure-scalable-app-prototype-frontend:v2.0
+    image: alex176/azure-scalable-app-prototype-frontend:v2.1
     ports:
       - "3000:3000"
     container_name: front-end-app

@@ -34,6 +34,13 @@ Update the pv-azuredisk.yaml file with the disk id obtained from the previous co
 spec -> csi -> volumeHandle
 ```
 
+Create secrets for the databases:
+```
+kubectl create secret generic db-pass --from-literal=db-password='m0ng0d8'
+kubectl create secret generic db-user --from-literal=db-username='mongodb-user'
+```
+
+
 Deploy the application:
 ```
 ./apply_all.sh
@@ -87,9 +94,4 @@ Resources: https://learn.microsoft.com/en-us/azure/aks/azure-csi-disk-storage-pr
 ```
 Disk resource ID: /subscriptions/fc011c7b-8150-4065-af8b-1a8487bc3f73/resourceGroups/srs2024-stu-g9/providers/Microsoft.Compute/disks/myAKSDisk
 ```
-
-## Secrets
-```
-kubectl create secret generic db-pass --from-literal=db-password='m0ng0d8'
-kubectl create secret generic db-user --from-literal=db-username='mongodb-user'
-```
+ 
