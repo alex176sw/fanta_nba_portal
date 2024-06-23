@@ -1,11 +1,12 @@
 FROM python:3.9-slim
 
 WORKDIR /usr/src/app
+RUN pip install --upgrade pip
 
 COPY pyproject.toml .
-COPY . .
+RUN pip install -e .
 
-RUN pip install --upgrade pip
+COPY . .
 RUN pip install -e .
 
 EXPOSE 5000
